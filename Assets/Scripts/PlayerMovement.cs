@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
 */
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.RightArrow) && (transform.position.x < 14)  )
+        if (Input.GetKeyDown(KeyCode.RightArrow) && (transform.position.x < 13)  )
         {
            transform.position += new Vector3(tileSize, 0, 0);
             isMoving =true;
@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
             isMoving =true;
             
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow) && (transform.position.y < 8  ))
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && (transform.position.y < 8   ))
         {
             transform.position += new Vector3(0, tileSize, 0);
             isMoving =true;
