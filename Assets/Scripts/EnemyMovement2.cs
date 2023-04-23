@@ -21,14 +21,12 @@ public class EnemyMovement2 : MonoBehaviour
     void Update()
     {
         
-        if(_player.isMoving){
-    
-
+        if(_player.checkMoves){
          timer += Time.deltaTime;
         if (timer > delay)
         {
             Spawnning();
-        _player.isMoving = false;
+        _player.checkMoves = false;
         }
         
         }
