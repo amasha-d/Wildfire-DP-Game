@@ -18,15 +18,15 @@ public class Pair<T, U>
     }
 };
 
-
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] public PlayerMovement _player;
+    public PlayerMovement playerTile1, playerTile2;
     [SerializeField] private Tile _tilePrefab;
+    
     // private int x =3, y=2;
     private List<Pair<int,int>> list1 = new List<Pair<int,int>>();
     private List<Pair<int,int>> list2 = new List<Pair<int,int>>();
-    public float delay = 0.5f;
+    public float delay = 0.8f;
     float timer;
     static int NUM_ROWS = 14;
     static int NUM_COLS = 9;
@@ -38,26 +38,25 @@ public class EnemyMovement : MonoBehaviour
                 visited[i,j] = -1;
             }
         }
-        list1.Add(new Pair<int, int>(5,5));
-        visited[5,5] = 1;
+        list1.Add(new Pair<int, int>(12,1));
+        visited[12,1] = 1;
     }
   
     //private float moveDist = 1f;
     void Update()
     {
         
-        if(_player.isMoving){
-    
+        if(playerTile1.checkMoves == true || playerTile2.checkMoves == true){
 
          timer += Time.deltaTime;
+
         if (timer > delay)
         {
             Spawnning();
-        _player.isMoving = false;
+        playerTile1.checkMoves = false;
+        playerTile2.checkMoves = false;
         }
-        
-        }
-        
+        }  
     }
 
     public bool isValid(int x, int y) {
@@ -67,7 +66,7 @@ public class EnemyMovement : MonoBehaviour
     public void Spawnning(){
         
             Debug.Log("Player is moving");
-            // transform.position += new Vector3(moveDist, 0, 0);
+
             foreach(var val in list1){
                 var x = val.First;
                 var y = val.Second;
@@ -78,24 +77,29 @@ public class EnemyMovement : MonoBehaviour
                 for(int i=0;i<4;i++) {
                     int x1 = x + dx[i];
                     int y1 = y + dy[i];
+                    
+                         // check if the position has an obstacle
+                    RaycastHit2D hit = Physics2D.Raycast(new Vector2(x1, y1), Vector2.zero);
+                    if (hit.collider != null && hit.collider.CompareTag("Obstacles")) {
+                        continue;
+                    }
+                    else if(hit.collider != null && hit.collider.CompareTag("Player"))
+                    {
+                        playerTile1.GetComponent<SpriteRenderer>().color = Color.black;
+                        continue;
+                    }
                     if (isValid(x1, y1) && visited[x1,y1] == -1) {
                         visited[x1, y1] = 1;
                         Instantiate(_tilePrefab, new Vector3(x1, y1), Quaternion.identity);
                         list2.Add(new Pair<int, int>(x1, y1)); 
                     }
-                }
-                
+                }  
             }
-            
-
             list1.Clear();
-
-
             for(var i=0; i<list2.Count; i++){
                 list1.Add(list2[i]);
             }
-
             list2.Clear();
-
     }
+
 }
