@@ -83,8 +83,8 @@ public class EnemyMovement : MonoBehaviour
                     if (hit.collider != null && hit.collider.CompareTag("Obstacles")) {
                         continue;
                     }
-                    else if(hit.collider != null && hit.collider.CompareTag("Player"))
-                    {
+                     else if(hit.collider != null && hit.collider.CompareTag("Player"))
+                     {
                         playerTile1.GetComponent<SpriteRenderer>().color = Color.black;
                         continue;
                     }
